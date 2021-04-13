@@ -88,22 +88,40 @@ class _SuggestionsTextFieldState extends State<SuggestionsTextField> {
             ),
           ),
         ),
-        TextField(
-          controller: _controller,
-          enabled: widget.tagsTextField.enabled,
-          autofocus: widget.tagsTextField.autofocus ?? true,
-          focusNode: _focusNode,
-          keyboardType: widget.tagsTextField.keyboardType ?? null,
-          textCapitalization: widget.tagsTextField.textCapitalization ??
-              TextCapitalization.none,
-          maxLength: widget.tagsTextField.maxLength ?? null,
-          maxLines: 1,
-          autocorrect: widget.tagsTextField.autocorrect ?? false,
-          style: widget.tagsTextField.textStyle.copyWith(
-              height: widget.tagsTextField.textStyle.height == null ? 1 : null),
-          decoration: _initialInputDecoration,
-          onChanged: (str) => _checkOnChanged(str),
-          onSubmitted: (str) => _onSubmitted(str),
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                enabled: widget.tagsTextField.enabled,
+                autofocus: widget.tagsTextField.autofocus ?? true,
+                focusNode: _focusNode,
+                keyboardType: widget.tagsTextField.keyboardType ?? null,
+                textCapitalization: widget.tagsTextField.textCapitalization ??
+                    TextCapitalization.none,
+                maxLength: widget.tagsTextField.maxLength ?? null,
+                maxLines: 1,
+                autocorrect: widget.tagsTextField.autocorrect ?? false,
+                style: widget.tagsTextField.textStyle.copyWith(
+                    height: widget.tagsTextField.textStyle.height == null
+                        ? 1
+                        : null),
+                decoration: _initialInputDecoration,
+                onChanged: (str) => _checkOnChanged(str),
+                onSubmitted: (str) => _onSubmitted(str),
+              ),
+            ),
+            widget.tagsTextField.submitButtonIcon != null
+                ? IconButton(
+                    icon: widget.tagsTextField.submitButtonIcon,
+                    onPressed: () {
+                      final str = _controller.text;
+                      if (str != null && str.isNotEmpty) {
+                        _onSubmitted(str);
+                      }
+                    })
+                : SizedBox.shrink(),
+          ],
         )
       ],
     );
@@ -213,6 +231,7 @@ class TagsTextField {
       this.textCapitalization,
       this.maxLength,
       this.inputDecoration,
+      this.submitButtonIcon,
       this.onSubmitted,
       this.onChanged});
 
@@ -239,6 +258,9 @@ class TagsTextField {
   final TextInputType keyboardType;
   final TextCapitalization textCapitalization;
   final int maxLength;
+
+  /// append a submit button with [submitButtonIcon] next to input field
+  final Icon submitButtonIcon;
   final OnSubmittedCallback onSubmitted;
   final OnChangedCallback onChanged;
 }
