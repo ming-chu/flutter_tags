@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
+  MyHomePage({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -30,8 +30,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  ScrollController _scrollViewController;
+  TabController? _tabController;
+  ScrollController? _scrollViewController;
 
   final List<String> _list = [
     '0',
@@ -74,10 +74,10 @@ class _MyHomePageState extends State<MyHomePage>
   bool _horizontalScroll = true;
   bool _withSuggesttions = false;
   int _count = 0;
-  int _column = 0;
+  int? _column = 0;
   double _fontSize = 14;
 
-  String _itemCombine = 'withTextBefore';
+  String? _itemCombine = 'withTextBefore';
 
   String _onPressed = '';
 
@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage>
     _items = _list.toList();
   }
 
-  List _items;
+  late List _items;
 
   final GlobalKey<TagsState> _tagStateKey = GlobalKey<TagsState>();
 
@@ -135,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage>
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                                  color: Colors.grey[300], width: 0.5))),
+                                  color: Colors.grey[300]!, width: 0.5))),
                       margin:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: ExpansionTile(
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage>
                                     ? Text("Not set")
                                     : Text(_column.toString()),
                                 items: _buildItems(),
-                                onChanged: (a) {
+                                onChanged: (dynamic a) {
                                   setState(() {
                                     _column = a;
                                   });
@@ -337,7 +337,7 @@ class _MyHomePageState extends State<MyHomePage>
                       decoration: BoxDecoration(
                           border: Border(
                               bottom: BorderSide(
-                                  color: Colors.grey[300], width: 0.5))),
+                                  color: Colors.grey[300]!, width: 0.5))),
                       margin:
                           EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                       child: ExpansionTile(
@@ -370,9 +370,9 @@ class _MyHomePageState extends State<MyHomePage>
                                 padding: EdgeInsets.all(20),
                               ),
                               DropdownButton(
-                                hint: Text(_itemCombine),
+                                hint: Text(_itemCombine!),
                                 items: _buildItems2(),
-                                onChanged: (val) {
+                                onChanged: (dynamic val) {
                                   setState(() {
                                     _itemCombine = val;
                                   });
@@ -490,7 +490,7 @@ class _MyHomePageState extends State<MyHomePage>
           index: index,
           title: item,
           pressEnabled: true,
-          activeColor: Colors.blueGrey[600],
+          activeColor: Colors.blueGrey[600]!,
           singleItem: _singleItem,
           splashColor: Colors.green,
           combine: ItemTagsCombine.withTextBefore,
@@ -535,11 +535,11 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   // Position for popup menu
-  Offset _tapPosition;
+  late Offset _tapPosition;
 
   Widget get _tags2 {
     //popup Menu
-    final RenderBox overlay = Overlay.of(context).context?.findRenderObject();
+    final RenderBox? overlay = Overlay.of(context)!.context.findRenderObject() as RenderBox?;
 
     ItemTagsCombine combine = ItemTagsCombine.onlyText;
 
@@ -587,7 +587,7 @@ class _MyHomePageState extends State<MyHomePage>
             index: index,
             title: item,
             pressEnabled: false,
-            activeColor: Colors.green[400],
+            activeColor: Colors.green[400]!,
             combine: combine,
             image: index > 0 && index < 5
                 ? ItemTagsImage(image: AssetImage("img/p$index.jpg"))
@@ -640,7 +640,7 @@ class _MyHomePageState extends State<MyHomePage>
                     position: RelativeRect.fromRect(
                         _tapPosition & Size(40, 40),
                         Offset.zero &
-                            overlay
+                            overlay!
                                 .size) // & RelativeRect.fromLTRB(65.0, 40.0, 0.0, 0.0),
                     )
                 .then((value) {
